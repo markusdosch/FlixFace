@@ -6,7 +6,7 @@ import '../../node_modules/tracking/build/data/face.js'
 
 
 var faces = [];
-
+const IMG_SIDELENGTH=224;
 
 class FaceTracker extends Component {
 
@@ -51,10 +51,10 @@ class FaceTracker extends Component {
     let cropWidth = (face.width + border * 2) *2;
     let cropHeight = (face.height + border * 2) *2;
 
-    canvas.width = cropWidth;
-    canvas.height = cropHeight;
+    canvas.width = IMG_SIDELENGTH;
+    canvas.height = IMG_SIDELENGTH;
 
-    ctx.drawImage(this.refs.video, Math.max(face.x - border,0)*2, Math.max(face.y - border,0)*2, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+    ctx.drawImage(this.refs.video, Math.max(face.x - border,0)*2, Math.max(face.y - border,0)*2, cropWidth, cropHeight, 0, 0, IMG_SIDELENGTH, IMG_SIDELENGTH);
     
     // return the .toDataURL of the temp canvas
     console.log(canvas.toDataURL().length)

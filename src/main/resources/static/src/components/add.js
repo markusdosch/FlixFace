@@ -34,17 +34,23 @@ class Add extends Component {
           required
           />
 
-        <FaceTracker ref="tracker"/>
+        <Button
+          onClick={this.takePhoto}
+          >
+          Take Photo
+        </Button>
 
-        <Button 
-        type="submit"
-        >
+        <Button
+          type="submit"
+          >
           Register
         </Button>
 
         <div>
           {this.state.message}
-        </div>
+        </div>          
+
+        <FaceTracker ref="tracker"/>
       </form>
     );
   }
@@ -55,7 +61,7 @@ class Add extends Component {
     let form = document.querySelector('form');
 
     // Register the user on the backend, but only if he has (1) entered his name and (2) taken a photo with correct face visible
-    if(!form.name || !this.state.faceImage) return; // TODO: Show the user that he isn't finished entering his information
+    if (!form.name || !this.state.faceImage) return; // TODO: Show the user that he isn't finished entering his information
 
     let formData = new FormData(form);
     formData.append("image", this.dataURItoBlob(this.state.faceImage));
@@ -79,6 +85,15 @@ class Add extends Component {
       array.push(binary.charCodeAt(i));
     }
     return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+  }
+
+  takePhoto = (event) => {
+    const tracker = this.refs.tracker;
+    if(tracker.getNumberOfFaces() === 1){
+      this.setState({
+        faceImage: tracker.getFace()
+      })
+    }
   }
 }
 
