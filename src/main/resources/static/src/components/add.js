@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import FaceTracker from './face-tracker.js';
 
 import Environment from '../environment';
 
@@ -32,6 +33,8 @@ class Add extends Component {
           placeholder="Enter your name"
           required
           />
+
+        <FaceTracker ref="tracker"/>
 
         <Button 
         type="submit"
