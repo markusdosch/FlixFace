@@ -55,7 +55,7 @@ class Add extends Component {
     if (!form.name || !this.state.faceImage) return; // TODO: Show the user that he isn't finished entering his information
 
     let formData = new FormData(form);
-    formData.append("image", this.dataURItoBlob(this.state.faceImage));
+    formData.append("image", dataURItoBlob(this.state.faceImage));
 
     fetch(Environment.backendUrl + '/add', {
       method: 'POST',
