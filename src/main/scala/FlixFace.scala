@@ -3,12 +3,14 @@ import java.io._
 import akka.actor.ActorSystem
 import akka.event.{Logging, LoggingAdapter}
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.model._
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.sys.process.Process
+import akka.http.scaladsl.model.headers._
+import akka.http.scaladsl.server.Directives._
 
 trait types {
   type Vector = List[Double]
@@ -26,38 +28,41 @@ trait Service extends types with db {
   val logger: LoggingAdapter
   val THRESHOLD = 0.47
 
-  val routes = {
-    pathPrefix("static") {
-      // optionally compresses the response with Gzip or Deflate
-      // if the client accepts compressed responses
-      encodeResponse {
-        // serve up static content from a JAR resource
-        getFromResourceDirectory("static")
-      }
-    } ~ (path("add") & post) {
-      uploadedFile("image") {
-        case (metadata, file) =>
-          formFields('name.as[String]) { (name) =>
-            val vector = getTorchVector(file.toString)
-            addPerson(name, vector)
+  val routes =
+    respondWithHeader(
+      RawHeader("Access-Control-Allow-Origin", "*")
+    ) {
+      pathPrefix("static") {
+        // optionally compresses the response with Gzip or Deflate
+        // if the client accepts compressed responses
+        encodeResponse {
+          // serve up static content from a JAR resource
+          getFromResourceDirectory("static")
+        }
+      } ~ (path("add") & post) {
+        uploadedFile("image") {
+          case (metadata, file) =>
+            formFields('name.as[String]) { (name) =>
+              val vector = getTorchVector(file.toString)
+              addPerson(name, vector)
+              file.delete()
+              complete(s"Successfully uploaded a picture for user: $name")
+            }
+
+        }
+      } ~ (path("verify") & post) {
+        uploadedFile("image") {
+          case (metadata, file) =>
+            val (name, res) = check(file.toString)
             file.delete()
-            complete(s"Successfully uploaded a picture for user: $name")
-          }
 
-      }
-    } ~ (path("verify") & post) {
-      uploadedFile("image") {
-        case (metadata, file) =>
-          val (name, res) = check(file.toString)
-          file.delete()
-
-          if (res < THRESHOLD)
-            complete(s"You are $name with confidence $res")
-          else
-            complete(s"STOP! (could be $name with confidence $res)")
+            if (res < THRESHOLD)
+              complete(s"You are $name with confidence $res")
+            else
+              complete(s"STOP! (could be $name with confidence $res)")
+        }
       }
     }
-  }
 
   private def getTorchVector(filePath: String): Vector = {
     val luaScriptDir = "/home/markus/techfest/vgg_face_torch"
