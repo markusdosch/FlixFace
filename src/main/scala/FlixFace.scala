@@ -16,22 +16,23 @@ trait types {
 
 trait Service extends types with db {
   implicit val system: ActorSystem
+
   implicit def executor: ExecutionContextExecutor
+
   implicit val materializer: Materializer
 
   def config: Config
+
   val logger: LoggingAdapter
   val THRESHOLD = 0.47
 
   val routes = {
-    logRequestResult("flixface") {
-      pathPrefix("static") {
-        // optionally compresses the response with Gzip or Deflate
-        // if the client accepts compressed responses
-        encodeResponse {
-          // serve up static content from a JAR resource
-          getFromResourceDirectory("static")
-        }
+    pathPrefix("static") {
+      // optionally compresses the response with Gzip or Deflate
+      // if the client accepts compressed responses
+      encodeResponse {
+        // serve up static content from a JAR resource
+        getFromResourceDirectory("static")
       }
     } ~ (path("add") & post) {
       uploadedFile("image") {
@@ -47,15 +48,13 @@ trait Service extends types with db {
     } ~ (path("verify") & post) {
       uploadedFile("image") {
         case (metadata, file) =>
-          formFields('name.as[String]) { (name) =>
-            val res = check(name, file.toString)
-            file.delete()
+          val (name, res) = check(file.toString)
+          file.delete()
 
-            if(res._1 == name && res._2 < THRESHOLD)
-              complete(s"You are really who you want to be")
-            else
-              complete(s"STOP!!!!!!!!")
-          }
+          if (res < THRESHOLD)
+            complete(s"You are $name with confidence $res")
+          else
+            complete(s"STOP! (could be $name with confidence $res)")
       }
     }
   }
@@ -66,7 +65,7 @@ trait Service extends types with db {
     output.split("\n").toList.dropRight(1).map(_.toDouble)
   }
 
-  def check(userName: String, filePath: String): (String, Double) = {
+  def check(filePath: String): (String, Double) = {
     // 1. calculate vector for image
     val vector = getTorchVector(filePath: String)
 
@@ -74,11 +73,11 @@ trait Service extends types with db {
     val list = getAll.get
 
     // find closest vector
-    val res = list.foldLeft("", 999999.0){
-      case ((name, currentBestDistance), (id, name2, vec)) =>
-        val d = dist(vector, vec)
-        if( d < currentBestDistance) (name2, d)
-        else (name, currentBestDistance)
+    val res = list.foldLeft("", 0.0) {
+      case ((name, currentHighestConfidence), (id, name2, vec)) =>
+        val d = confidence(dist(vector, vec))
+        if (d > currentHighestConfidence) (name2, d)
+        else (name, currentHighestConfidence)
     }
     logger.info(s"detected ${res._1} with distance ${res._2} ")
     res
@@ -88,6 +87,10 @@ trait Service extends types with db {
     vec1.zip(vec2).foldLeft(0.0) {
       case (sum, (x, y)) => sum + (x - y) * (x - y)
     }
+  }
+
+  def confidence(x: Double): Double = {
+    Math.exp(-x)
   }
 }
 
@@ -108,6 +111,6 @@ object FlixFace extends App with Service with db {
   logger.info(getAll.get mkString ",")
   */
 
-  logger.info(dist(List(2.1,2.2,2.5), List(2.1,2.2,2.5)).toString)
+  logger.info(dist(List(2.1, 2.2, 2.5), List(2.1, 2.2, 2.5)).toString)
   Http().bindAndHandle(routes, config.getString("http.interface"), config.getInt("http.port"))
 }
