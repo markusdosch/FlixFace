@@ -1,20 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Nav, NavItem } from 'react-bootstrap';
 import './App.css';
 
+import Home from './components/home';
+import Check from './components/check';
+import Add from './components/add';
+
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      activeComponent: 1
+    };
+  }
+
   render() {
+    let activeComponent;
+    switch (this.state.activeComponent) {
+      case 1:
+        activeComponent = <Home/>;
+        break;
+      case 2:
+        activeComponent = <Check/>;
+        break;
+      case 3:
+        activeComponent = <Add/>;
+        break;
+      default:
+        break;
+    }
+
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>FlixFace Beta</h2>
+          <Nav bsStyle="pills" activeKey={this.state.activeComponent} onSelect={this.handleSelect}>
+            <NavItem eventKey={1}>Check Entrance</NavItem>
+            <NavItem eventKey={2}>Check Entrance</NavItem>
+            <NavItem eventKey={3}>Add User</NavItem>
+          </Nav>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        {activeComponent}
       </div>
     );
+  }
+
+  handleSelect = (selectedKey) => {
+    this.setState({
+      activeComponent: selectedKey
+    });
   }
 }
 
