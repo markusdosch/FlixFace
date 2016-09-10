@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import FaceTracker from './face-tracker';
 import FieldGroup from './fieldgroup';
 import Environment from '../environment';
+import { dataURItoBlob } from '../common-methods';
 
 class Add extends Component {
   constructor() {
@@ -67,15 +68,6 @@ class Add extends Component {
       .catch((error) => this.setState({
         message: "Error, please try again! Error was: " + error
       }))
-  }
-
-  dataURItoBlob(dataURI) {
-    let binary = atob(dataURI.split(',')[1]);
-    let array = [];
-    for (let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
   }
 
   takePhoto = (event) => {

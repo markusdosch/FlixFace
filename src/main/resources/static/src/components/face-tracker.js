@@ -5,9 +5,9 @@ import '../../node_modules/tracking/build/tracking.js'
 import '../../node_modules/tracking/build/data/face.js'
 
 
-var faces = [];
+let faces = [];
 const IMG_SIDELENGTH=224;
-var faceListeners = [];
+const faceListeners = [];
 
 class FaceTracker extends Component {
 
@@ -15,12 +15,14 @@ class FaceTracker extends Component {
     let video = this.refs.video;
     let canvas = this.refs.canvas;
     let context = canvas.getContext('2d');
-    var tracker = new tracking.ObjectTracker('face');
+    const tracker = new tracking.ObjectTracker('face');
+
     tracker.setInitialScale(4);
     tracker.setStepSize(2);
     tracker.setEdgesDensity(0.1);
 
     tracking.track(video, tracker, { camera: true });
+
     tracker.on('track', (event) => {
       context.clearRect(0, 0, canvas.width, canvas.height);
       faces = event.data;
@@ -38,12 +40,14 @@ class FaceTracker extends Component {
     });
   }
 
-  addFaceListeners(callback){
+  addFaceListener(callback){
     faceListeners.push(callback);
   }
+
   removeFaceListener(callback){
     let index = faceListeners.indexOf(callback);
-    if(index >= 0) faceListeners = faceListeners.splice(index, 1);
+    console.log(index);
+    if(index >= 0) faceListeners.splice(index, 1);
   }
 
   getNumberOfFaces() {
@@ -51,7 +55,7 @@ class FaceTracker extends Component {
   }
 
   getFace() {
-    if (faces.length == 0) return "no faces on image"
+    if (faces.length === 0) return "no faces on image"
 
     var border = 17;
     var face = faces[0];
@@ -65,10 +69,19 @@ class FaceTracker extends Component {
     canvas.width = IMG_SIDELENGTH;
     canvas.height = IMG_SIDELENGTH;
 
-    ctx.drawImage(this.refs.video, Math.max(face.x - border,0)*2, Math.max(face.y - border,0)*2, cropWidth, cropHeight, 0, 0, IMG_SIDELENGTH, IMG_SIDELENGTH);
+    ctx.drawImage(
+      this.refs.video, 
+      Math.max(face.x - border,0)*2, 
+      Math.max(face.y - border,0)*2, 
+      cropWidth, 
+      cropHeight, 
+      0, 
+      0, 
+      IMG_SIDELENGTH, 
+      IMG_SIDELENGTH
+      );
     
     // return the .toDataURL of the temp canvas
-    console.log(canvas.toDataURL().length)
     return canvas.toDataURL();
   }
 
