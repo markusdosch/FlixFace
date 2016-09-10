@@ -24,6 +24,11 @@ class Check extends Component {
     this.checkForFace();
   }
 
+  componentWillUnmount() {
+    this.refs.tracker.removeFaceListener(this.faceDetectedCallback);
+    this.faceDetectedCallback = null;
+  }
+
   checkForFace() {
     this.faceDetectedCallback = () => this.onFaceDetected()
     this.refs.tracker.addFaceListener(this.faceDetectedCallback)
@@ -39,7 +44,7 @@ class Check extends Component {
       return;
     }
 
-    const face = tracker.getFace();
+    let face = tracker.getFace();
 
     this.refs.tracker.removeFaceListener(this.faceDetectedCallback)
     const formData = new FormData();

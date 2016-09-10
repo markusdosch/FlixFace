@@ -34,13 +34,12 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
+          <div className="nav" style={{display: "flex", flexDirection: "row", justifyContent: "space-around", paddingBottom: "10px"}}>
+            <a href="" onClick={(event) => this.handleSelect(event, 1)}>Home</a>
+            <a href="" onClick={(event) => this.handleSelect(event, 2)}>Entrance Check</a>
+            <a href="" onClick={(event) => this.handleSelect(event, 3)}>Add User</a>            
+          </div>
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>FlixFace</h2>
-          <Nav bsStyle="pills" activeKey={this.state.activeComponent} onSelect={this.handleSelect}>
-            <NavItem eventKey={1}>Home</NavItem>
-            <NavItem eventKey={2}>Check Entrance</NavItem>
-            <NavItem eventKey={3}>Add User</NavItem>
-          </Nav>
         </div>
 
         <div className="App-content">
@@ -50,7 +49,8 @@ class App extends Component {
     );
   }
 
-  handleSelect = (selectedKey) => {
+  handleSelect = (event, selectedKey) => {
+    event.preventDefault();
     this.setState({
       activeComponent: selectedKey
     });
