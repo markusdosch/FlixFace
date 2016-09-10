@@ -22,3 +22,20 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.demo-container video, .demo-container canvas {
+    width: 320px;
+    height: 240px;
+    transform: scale(2,2) translate(80px,60px);
+    position: absolute;
+    float: left;
+    left: 0;
+}
+.demo-container {
+  position: relative;
+    
+    /*width: 640px;
+    height: 640px;*/
+    left: 50%;
+    margin-left: -320px;
+}
