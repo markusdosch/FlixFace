@@ -6,7 +6,7 @@ import '../../node_modules/tracking/build/data/face.js'
 
 
 let faces = [];
-const IMG_SIDELENGTH=224;
+const IMG_SIDELENGTH=96;
 const faceListeners = [];
 
 class FaceTracker extends Component {
@@ -60,7 +60,7 @@ class FaceTracker extends Component {
     var border = 17;
     var face = faces[0];
 
-    var canvas = this.refs.cropcanv
+    var canvas = this.refs.cropcanv;
     var ctx = canvas.getContext("2d");
 
     let cropWidth = (face.width + border * 2) *2;

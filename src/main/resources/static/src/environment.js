@@ -1,5 +1,5 @@
 const Environment = {
-    backendUrl: "http://localhost:9000"
+    backendUrl: "https://flixface.21solutions.de"
 }
 
 export default Environment;
