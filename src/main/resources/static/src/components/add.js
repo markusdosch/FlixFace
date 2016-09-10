@@ -70,8 +70,9 @@ class Add extends Component {
       method: 'POST',
       body: formData
     })
-      .then((result) => this.setState({
-        message: result
+      .then(response => response.text())
+      .then(responseText => this.setState({
+        message: resultText
       }))
       .catch((error) => this.setState({
         message: "Error, please try again! Error was: " + error

@@ -26,7 +26,7 @@ trait Service extends types with db {
   def config: Config
 
   val logger: LoggingAdapter
-  val THRESHOLD = 0.47
+  val THRESHOLD = 0.9
 
   val routes =
     respondWithHeader(
@@ -56,7 +56,7 @@ trait Service extends types with db {
             val (name, res) = check(file.toString)
             file.delete()
 
-            if (res < THRESHOLD)
+            if (res > THRESHOLD)
               complete(s"You are $name with confidence $res")
             else
               complete(s"STOP! (could be $name with confidence $res)")
