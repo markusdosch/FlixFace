@@ -72,7 +72,7 @@ class Add extends Component {
     })
       .then(response => response.text())
       .then(responseText => this.setState({
-        message: resultText
+        message: responseText
       }))
       .catch((error) => this.setState({
         message: "Error, please try again! Error was: " + error
