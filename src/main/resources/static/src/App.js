@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
 import './App.css';
+import logo from './Flixbus_2015_logo.svg';
 
 import Home from './components/home';
 import Check from './components/check';
@@ -33,15 +34,18 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>FlixFace Beta</h2>
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>FlixFace</h2>
           <Nav bsStyle="pills" activeKey={this.state.activeComponent} onSelect={this.handleSelect}>
-            <NavItem eventKey={1}>Check Entrance</NavItem>
+            <NavItem eventKey={1}>Home</NavItem>
             <NavItem eventKey={2}>Check Entrance</NavItem>
             <NavItem eventKey={3}>Add User</NavItem>
           </Nav>
         </div>
 
-        {activeComponent}
+        <div className="App-content">
+          {activeComponent}
+        </div>
       </div>
     );
   }
