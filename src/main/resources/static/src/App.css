@@ -34,3 +34,17 @@
     left: 50%;
     margin-left: -320px;
 }
+
+.check_footer {
+    position: fixed;
+    bottom: 0;
+    height: 15%;
+    background: lightgray;
+    width: 100%;
+    font-size: 30px;
+}
+
+.check_footer h1 {
+  margin-top: 50px;
+  font-size: 47px;
+}

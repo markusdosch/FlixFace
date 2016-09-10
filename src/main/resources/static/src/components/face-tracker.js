@@ -7,6 +7,7 @@ import '../../node_modules/tracking/build/data/face.js'
 
 var faces = [];
 const IMG_SIDELENGTH=224;
+var faceListeners = [];
 
 class FaceTracker extends Component {
 
@@ -32,7 +33,17 @@ class FaceTracker extends Component {
         context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
         context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
       });
+      
+      faceListeners.forEach(l=>l()) 
     });
+  }
+
+  addFaceListeners(callback){
+    faceListeners.push(callback);
+  }
+  removeFaceListener(callback){
+    let index = faceListeners.indexOf(callback);
+    if(index >= 0) faceListeners = faceListeners.splice(index, 1);
   }
 
   getNumberOfFaces() {

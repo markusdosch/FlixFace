@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import FaceTracker from './face-tracker.js';
-
+import { Button } from 'react-bootstrap';
+import FaceTracker from './face-tracker';
+import FieldGroup from './fieldgroup';
 import Environment from '../environment';
-
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
 
 class Add extends Component {
   constructor() {
