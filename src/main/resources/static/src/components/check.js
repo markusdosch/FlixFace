@@ -30,8 +30,29 @@ class Check extends Component {
   onFaceDetected(){
     this.refs.tracker.removeFaceListener(this.faceDetectedCallback)
 
-    // send to server
+    const tracker = this.refs.tracker;
+    if(tracker.getNumberOfFaces() === 1){
+      var face = tracker.getFace()    
+    } else {
+      alert('there should only be one face');
+      return;
+    }
+    let formData = new FormData(form);
+    formData.append("image", dataURItoBlob(face));
 
+    fetch(Environment.backendUrl + '/verify', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.text())
+      .then(responseText => {
+        if(responseText.contains('STOP'))
+          this.onFaceInvalid(responseText)
+        else this.onFaceValid(responseText)
+      })
+      .catch((error) => this.setState({
+        message: "Error, please try again! Error was: " + error
+      }))
     this.setState({
       step: LOADING
     })
@@ -40,7 +61,7 @@ class Check extends Component {
   onFaceValid(resp){
     this.setState({
       step: OK,
-      name: resp.name
+      name: resp
     })
     setTimeout(()=>this.checkForFace(), 1000)
   }
@@ -80,3 +101,13 @@ class Check extends Component {
 }
 
 export default Check;
+
+
+function dataURItoBlob(dataURI) {
+    let binary = atob(dataURI.split(',')[1]);
+    let array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+  }
