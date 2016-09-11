@@ -79,14 +79,14 @@ class Check extends Component {
       step: OK,
       name: resp
     })
-    setTimeout(() => this.checkForFace(), 1000)
+    setTimeout(() => this.checkForFace(), 3000)
   }
 
   onFaceInvalid(resp) {
     this.setState({
       step: GO_AWAY
     })
-    setTimeout(() => this.checkForFace(), 1000)
+    setTimeout(() => this.checkForFace(), 3000)
   }
 
   render() {

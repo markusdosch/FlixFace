@@ -71,10 +71,20 @@ class Add extends Component {
   }
 
   takePhoto = (event) => {
+    this.setState({
+      message: ""
+    });
+
     const tracker = this.refs.tracker;
     if(tracker.getNumberOfFaces() === 1){
       this.setState({
-        faceImage: tracker.getFace()
+        faceImage: tracker.getFace(),
+        message: "Photo of face was successfully taken!"
+      })
+    } else {
+      this.setState({
+        faceImage: null,
+        message: "Face could not be found. Please try again."
       })
     }
   }

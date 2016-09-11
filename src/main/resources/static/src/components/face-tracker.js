@@ -6,7 +6,7 @@ import '../../node_modules/tracking/build/data/face.js'
 
 
 let faces = [];
-const IMG_SIDELENGTH=96;
+const IMG_SIDELENGTH=224;
 const faceListeners = [];
 
 class FaceTracker extends Component {
@@ -82,7 +82,7 @@ class FaceTracker extends Component {
       );
     
     // return the .toDataURL of the temp canvas
-    return canvas.toDataURL();
+    return canvas.toDataURL("image/png");
   }
 
   render() {
