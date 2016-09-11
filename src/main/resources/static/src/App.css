@@ -50,7 +50,7 @@ body {
     position: fixed;
     bottom: 0;
     height: 20%;
-    background: #73D700;
+    background: lightgray;
     width: 100%;
     font-size: 48px;
 }
@@ -58,4 +58,11 @@ body {
 .check_footer h1 {
   margin-top: 50px;
   font-size: 96px;
+}
+
+.check_footer.red {
+  background: darkred
+}
+.check_footer.green {
+  background: #73D700
 }
