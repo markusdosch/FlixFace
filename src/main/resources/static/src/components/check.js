@@ -40,7 +40,7 @@ class Check extends Component {
   onFaceDetected() {
     const tracker = this.refs.tracker;
 
-    if (tracker.getNumberOfFaces() > 1 || tracker.getNumberOfFaces <= 0) {
+    if (tracker.getNumberOfFaces() > 1 || tracker.getNumberOfFaces() <= 0) {
       this.setState({
         message: "There should only be one face!"
       })
