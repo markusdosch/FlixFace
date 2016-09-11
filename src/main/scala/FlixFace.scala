@@ -26,7 +26,7 @@ trait Service extends types with db  with processCom{
   def config: Config
 
   val logger: LoggingAdapter
-  val THRESHOLD = 0.9
+  val THRESHOLD = 0.35
 
   val routes =
     respondWithHeader(

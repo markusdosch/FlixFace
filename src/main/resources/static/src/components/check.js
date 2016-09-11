@@ -96,7 +96,7 @@ class Check extends Component {
         <h1>Please come closer</h1>
       </div>; break;
       case LOADING: message = <div className="check_footer gray">
-        <h1>Loading</h1>
+        <h1>Confirming your identity..</h1>
       </div>; break;
       case OK: message = <div className="check_footer green">
         <h1>Enjoy your ride, {this.state.name}</h1>
