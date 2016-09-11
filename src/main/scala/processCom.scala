@@ -35,24 +35,23 @@ trait processCom extends types {
   def initFaceDetection(): Unit = {
     Seq("th", "/mnt/vggface/demo.lua") run new ProcessIO(writeJob, readJob, errJob)
     2 seconds fromNow expiring {
-      writeToStream("/mnt/vggface/ak.png\n")
+      writeToStream("/mnt/vggface/ak.png")
     }
   }
 
   def writeToStream(input: String): Vector = {
 
-    outputStream.write(input.getBytes())
+    logger.info("issues another command"+input)
+    logger.info("bla")
+
+    outputStream.write((input+"\n").getBytes())
     outputStream.flush()
 
-    logger.info("issues another command"+input)
     val inputStreamReader = new InputStreamReader(inputStream)
     val bufferedReader = new BufferedReader(inputStreamReader)
     var count = 0
     val res = Iterator continually bufferedReader.readLine() takeWhile{
       byte: String => {
-    //    logger.info("taken"+byte+":"+inputStream.available().toString)
-
-        //count = count + 1
         inputStream.available() > 0
       }
     }
