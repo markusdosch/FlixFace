@@ -50,7 +50,7 @@ trait Service extends types with db  with processCom{
 
             val conf = (res * 100).round
             if (res > THRESHOLD)
-              complete(s"Enjoy your ride, $res! ($conf%)")
+              complete(s"Enjoy your ride, $name! ($conf%)")
             else
               complete(s"STOP! (could be $name with confidence $res)")
         }
