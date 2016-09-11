@@ -16,7 +16,7 @@ trait types {
   type Vector = List[Double]
 }
 
-trait Service extends types with db {
+trait Service extends types with db  with processCom{
   implicit val system: ActorSystem
 
   implicit def executor: ExecutionContextExecutor
@@ -31,15 +31,7 @@ trait Service extends types with db {
   val routes =
     respondWithHeader(
       RawHeader("Access-Control-Allow-Origin", "*")
-    ) {
-      pathPrefix("static") {
-        // optionally compresses the response with Gzip or Deflate
-        // if the client accepts compressed responses
-        encodeResponse {
-          // serve up static content from a JAR resource
-          getFromResourceDirectory("static")
-        }
-      } ~ (path("add") & post) {
+    ) { (path("add") & post) {
         uploadedFile("image") {
           case (metadata, file) =>
             formFields('name.as[String]) { (name) =>
@@ -61,13 +53,23 @@ trait Service extends types with db {
             else
               complete(s"STOP! (could be $name with confidence $res)")
         }
+      } ~ {
+        pathPrefix("") {
+          // optionally compresses the response with Gzip or Deflate
+          // if the client accepts compressed responses
+          encodeResponse {
+            // serve up static content from a JAR resource
+            getFromResourceDirectory("static/build")
+          }
+        }
       }
     }
 
   private def getTorchVector(filePath: String): Vector = {
-    val luaScriptDir = "/home/markus/techfest/vgg_face_torch"
-    val output = Process("th demo.lua " + filePath, new File(luaScriptDir)).!!
-    output.split("\n").toList.dropRight(1).map(_.toDouble)
+    writeToStream(filePath)
+    //val luaScriptDir = "/home/markus/techfest/vgg_face_torch"
+    //val output = Process("th demo.lua " + filePath, new File(luaScriptDir)).!!
+    //output.split("\n").toList.dropRight(1).map(_.toDouble)
   }
 
   def check(filePath: String): (String, Double) = {
@@ -99,7 +101,7 @@ trait Service extends types with db {
   }
 }
 
-object FlixFace extends App with Service with db {
+object FlixFace extends App with Service with db{
   override implicit val system = ActorSystem()
   override implicit val executor = system.dispatcher
   override implicit val materializer = ActorMaterializer()
@@ -108,6 +110,8 @@ object FlixFace extends App with Service with db {
   override val logger = Logging(system, getClass)
 
   initDB()
+
+  initFaceDetection()
 
   /*
   addPerson("test", List(2.1,2.2,4.7))
