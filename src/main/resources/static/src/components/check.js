@@ -96,7 +96,7 @@ class Check extends Component {
     this.setState({
       step: GO_AWAY
     })
-    setTimeout(() => this.checkForFace(), 3000)
+    setTimeout(() => this.checkForFace(), 1500)
   }
 
   render() {
