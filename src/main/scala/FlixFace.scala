@@ -48,8 +48,9 @@ trait Service extends types with db  with processCom{
             val (name, res) = check(file.toString)
             file.delete()
 
+            val conf = (res * 100).round
             if (res > THRESHOLD)
-              complete(s"You are $name with confidence $res")
+              complete(s"Enjoy your ride, $res! ($conf%)")
             else
               complete(s"STOP! (could be $name with confidence $res)")
         }

@@ -32,6 +32,9 @@ class Check extends Component {
   checkForFace() {
     this.faceDetectedCallback = () => this.onFaceDetected()
     this.refs.tracker.addFaceListener(this.faceDetectedCallback)
+    this.setState({
+      step: CHECKING
+    });
   }
 
   onFaceDetected() {
@@ -46,6 +49,13 @@ class Check extends Component {
 
     let face = tracker.getFace();
 
+    var data;
+    try {
+      data = dataURItoBlob(face)
+    } catch(e){
+      console.log("something wrent wrong", e)
+      return;
+    }
     this.refs.tracker.removeFaceListener(this.faceDetectedCallback)
     const formData = new FormData();
 
@@ -99,7 +109,7 @@ class Check extends Component {
         <h1>Confirming your identity..</h1>
       </div>; break;
       case OK: message = <div className="check_footer green">
-        <h1>Enjoy your ride, {this.state.name}</h1>
+        <h1>{this.state.name}</h1>
       </div>; break;
       case GO_AWAY: message = <div className="check_footer red">
         <h1>Just Go Away</h1>
