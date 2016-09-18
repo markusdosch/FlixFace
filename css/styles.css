@@ -13,6 +13,12 @@
 
 .header {
     padding-top: 1rem;
+    background-color: #488500;
+    color: white;
+}
+
+.header a {
+	color: #bdbdbd;
 }
 
 #outer-div {
