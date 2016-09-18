@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>FlixFace - Ticketfree Ticketing</title>
+	<!-- For mobile scaling -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Google Fonts -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+
+	<!-- CSS Reset -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+
+	<!-- Milligram CSS minified -->
+	<link rel="stylesheet" href="css/milligram/milligram.min.css">
+
+	<!-- Own styles -->
+	<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<main class="wrapper">
+	<header class="header" id="home">
+		<section class="container">
+			<h1 id="title" class="title">FlixFace</h1>
+			<h4>Ticketfree Ticketing</h4>
+			<p class="description">
+				<strong>AWARDS@<a target="_blank" href="http://techfestmunich.com/">TECHFEST MUNICH 2016</a></strong>: (250 participants, three days, over 21.000$ in prices) <br/>
+				<strong>Winning team</strong> in the AWS category & <strong>3rd place</strong> overall 
+			</p>				
+		</section>
+	</header>
+
+	<div id="outer-div">
+		<section class="container" id="infos">
+			<h5>
+				We replace tickets by face identification - <br/>so that bus drivers can focus on actually helping passengers!
+			</h5>
+			<p class="description">
+				<iframe width="760" height="428" src="https://www.youtube-nocookie.com/embed/SooK5PjAX1I?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+			</p>
+			<a class="button" target="_blank" href="https://github.com/Sukram21/FlixFace">GitHub</a>					
+			<a class="button" target="_blank" href="http://devpost.com/software/flixface">TECHFEST Profile</a>
+		</section>
+	</div>
+
+	<section class="container" id="technologies">
+		<h3>
+			Technologies Used
+		</h3>	
+		<p class="description">
+			<dl>
+			  <dt><strong>Image Processing:</strong> <a target="_blank" href="http://torch.ch/">Torch</a> (with Oxford's <a target="_blank" href="http://www.robots.ox.ac.uk/~vgg/software/vgg_face/">VGG Face Descriptor</a> model), running on an AWS GPU instance</dt>
+			  <dt><strong>Backend:</strong> Scala (Akka & Spray)</dt>
+			  <dt><strong>Frontend:</strong> React, face detection with <a target="_blank" href="https://trackingjs.com/">tracking.js</a></dt>
+			</dl>
+		</p>				
+	</section>
+
+	<section class="container" id="contact">
+		<h3>
+			Interested? Contact Us!
+		</h3>
+		<div style="text-align:center">
+			<a class="button" target="_blank" href="mailto:flixface@21solutions.de">flixface@21solutions.de</a>								
+		</div>	
+	</section>
+
+	<footer class="footer">
+		<section class="container">
+			<p><a href="https://github.com/joplapp">Johannes Plapp</a> & <a href="https://github.com/sukram21">Markus Müller</a> © 2016</p>
+		</section>
+	</footer>
+</main>
+</body>
+</html>

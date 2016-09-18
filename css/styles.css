@@ -1,0 +1,50 @@
+.header .container, .footer .container, #infos {
+	position: relative;
+	border-top: 0;
+	text-align: center;
+}
+
+.container {
+	/*border-top: .1rem solid #d1d1d1;*/
+	max-width: 80.0rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.header {
+    padding-top: 1rem;
+}
+
+#outer-div {
+    background-color: #f4f5f6;	
+}
+
+#title {
+	margin-bottom: 5px;
+}
+
+#title-image {
+	width: 150px;
+}
+
+.description {
+	text-align: center;
+}
+
+.column {
+	border-radius: .4rem; 
+	background-color: #f4f5f6;
+	margin-left: 1rem;
+	margin-right: 1rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding: 0.5rem;
+}
+
+.column div {
+	padding: 0.5rem;
+}
+
+.list-title {
+	font-weight: bold; 
+}
